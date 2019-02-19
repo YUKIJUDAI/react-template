@@ -5,19 +5,12 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = { username: "", password: "", loginFlag: false };
-        this.setUserName = this.setUserName.bind(this);
-        this.setPassword = this.setPassword.bind(this);
         this.submit = this.submit.bind(this);
     }
    
-    setUserName(e) {
-        this.setState({ username: e.target.value });
-        console.log("the username changed to " + e.target.value);
-    }
-
-    setPassword(e) {
-        this.setState({ password: e.target.value });
-        console.log("the password changed to " + e.target.value);
+    setUser(type,e) {
+        this.setState({ [type]: e.target.value });
+        console.log("the " + type + " changed to " + e.target.value);
     }
 
     submit() {
@@ -32,8 +25,8 @@ export default class Login extends Component {
         if (this.state.loginFlag) return <Redirect to={"/home"} />;
         return (
             <form>
-                <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUserName} />
-                <input placeholder="请输入密码" value={this.state.password} onChange={this.setPassword} />
+                <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this,"username")} />
+                <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this,"password")} />
                 <button onClick={this.submit}> 登录 </button>
             </form>
         );
