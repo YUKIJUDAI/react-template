@@ -5,8 +5,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = { username: "", password: "", loginFlag: false };
-        this.submit = this.submit.bind(this);
-        
+        this.submit = this.submit.bind(this);      
     }
    
     setUser(type,e) {
