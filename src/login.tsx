@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { username: "", password: "", loginFlag: false };
-        this.submit = this.submit.bind(this);      
+
+    readonly state = {
+        username: "",
+        password: "",
+        loginFlag: false
     }
-   
-    setUser(type,e) {
+
+    constructor(props: any) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
+
+    setUser(type: string, e: any) {
         this.setState({ [type]: e.target.value });
         console.log("the " + type + " changed to " + e.target.value);
     }
@@ -25,8 +31,8 @@ export default class Login extends Component {
         if (this.state.loginFlag) return <Redirect to={"/home"} />;
         return (
             <form>
-                <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this,"username")} />
-                <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this,"password")} />
+                <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this, "username")} />
+                <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this, "password")} />
                 <button onClick={this.submit}> 登录 </button>
             </form>
         );

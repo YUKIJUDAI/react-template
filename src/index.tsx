@@ -5,11 +5,8 @@ import { createStore } from "redux";
 
 import Login from "./login";
 import Home from "./home";
-import ErrorPage from "./404";
 
-import "./index.css";
-
-const state = (state, action) => {
+const state = () => {
     return {
         userInfo: { username: "", passworld: "" }
     };
@@ -18,19 +15,18 @@ const state = (state, action) => {
 const store = createStore(state);
 
 class Basic extends Component {
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {};
     }
 
     render() {
         return (
-            <BrowserRouter basename="/">
+            <BrowserRouter basename="/home">
                 <div>
                     <Switch>
                         <Route path="/login" component={Login} />
                         <Route path="/home" component={Home} />
-                        <Redirect to="/404" component={ErrorPage} />
                     </Switch>
                 </div>
             </BrowserRouter>

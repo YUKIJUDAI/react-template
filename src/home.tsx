@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
 export default class Home extends Component {
-    constructor(props) {
+    readonly state = {
+        flag: false
+    }
+    constructor(props: any) {
         super(props);
-        this.state = { flag: false };
         this.exit = this.exit.bind(this);
     }
 
