@@ -4,23 +4,21 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 export interface IProps {
-    username: string,
-    password:string,
-    changeUserInfo: () => void
+    username: string;
+    password: string;
+    changeUserInfo: (obj: any) => void;
 }
-
-export default class Login extends PureComponent<IProps> {
-
+class Login extends PureComponent<IProps> {
     readonly state = {
         username: "",
         password: "",
-        loginFlag: false
-    }
+        loginFlag: false,
+    };
 
-    // constructor(props: any) {
-    //     super(props);
-    //     this.submit = this.submit.bind(this);
-    // }
+    constructor(props: any) {
+        super(props);
+        this.submit = this.submit.bind(this);
+    }
 
     setUser(type: string, e: any) {
         this.setState({ [type]: e.target.value });
@@ -31,25 +29,28 @@ export default class Login extends PureComponent<IProps> {
             window.alert("用户名或密码错误");
         } else {
             this.setState({ loginFlag: true });
+            this.props.changeUserInfo({ username: this.state.username, password: this.state.password });
         }
     }
 
     render() {
         if (this.state.loginFlag) return <Redirect to={"/home"} />;
-        return (  
+        return (
             <form>
                 <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this, "username")} />
                 <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this, "password")} />
-                <button onClick={this.submit.bind(this)}> 登录 </button>
+                <button onClick={this.submit}> 登录 </button>
             </form>
         );
     }
 }
 
-const mapStateToProps = (state:any) => ({ value:state });
+const mapStateToProps = (state: any) => ({ value: state });
 
-const mapDispatchToProps = (dispatch:Dispatch) => ({
-    changeUserInfo:() => { dispatch({ type:"CHANGE" }) }
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    changeUserInfo: (obj: any) => {
+        dispatch({ type: "CHANGE", text: obj });
+    },
 });
 
-connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
