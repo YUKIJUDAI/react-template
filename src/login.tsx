@@ -1,10 +1,15 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Redirect } from "react-router-dom";
-import { connect,Provider } from "react-redux";
-import store from "./reducer";
-import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-export default class Login extends Component {
+export interface IProps {
+    username: string,
+    password:string,
+    changeUserInfo: () => void
+}
+
+export default class Login extends PureComponent<IProps> {
 
     readonly state = {
         username: "",
@@ -12,14 +17,13 @@ export default class Login extends Component {
         loginFlag: false
     }
 
-    constructor(props: any) {
-        super(props);
-        this.submit = this.submit.bind(this);
-    }
+    // constructor(props: any) {
+    //     super(props);
+    //     this.submit = this.submit.bind(this);
+    // }
 
     setUser(type: string, e: any) {
         this.setState({ [type]: e.target.value });
-        console.log("the " + type + " changed to " + e.target.value);
     }
 
     submit() {
@@ -27,33 +31,25 @@ export default class Login extends Component {
             window.alert("用户名或密码错误");
         } else {
             this.setState({ loginFlag: true });
-            this.props.changeUserInfo()
         }
     }
 
     render() {
         if (this.state.loginFlag) return <Redirect to={"/home"} />;
-        return (
-            <Provider store={store}>    
-                <form>
-                    <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this, "username")} />
-                    <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this, "password")} />
-                    <button onClick={this.submit}> 登录 </button>
-                </form>
-            </Provider>
+        return (  
+            <form>
+                <input placeholder="请输入用户名" value={this.state.username} onChange={this.setUser.bind(this, "username")} />
+                <input placeholder="请输入密码" value={this.state.password} onChange={this.setUser.bind(this, "password")} />
+                <button onClick={this.submit.bind(this)}> 登录 </button>
+            </form>
         );
     }
 }
 
-function changeUserInfo(){
-    return {type:"CHANGE"};
-}
+const mapStateToProps = (state:any) => ({ value:state });
 
-function mapStateToProps(state:any) { 
-    return {...state}
-};
+const mapDispatchToProps = (dispatch:Dispatch) => ({
+    changeUserInfo:() => { dispatch({ type:"CHANGE" }) }
+});
 
-function mapDispatchToProps(dispatch:any){
-    return bindActionCreators({changeUserInfo},dispatch);
-};
 connect(mapStateToProps,mapDispatchToProps)(Login);

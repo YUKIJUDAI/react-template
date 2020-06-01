@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import { createStore } from "redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Provider } from "react-redux";
 
+import store from "./reducer";
 import Login from "./login";
 import Home from "./home";
 
-const state = () => {
-    return {
-        userInfo: { username: "", passworld: "" }
-    };
-};
-
-const store = createStore(state);
 
 class Basic extends Component {
     constructor(props: any) {
@@ -22,14 +16,14 @@ class Basic extends Component {
 
     render() {
         return (
-            <BrowserRouter basename="/home">
-                <div>
+            <Provider store={store}>
+                <BrowserRouter basename="/">
                     <Switch>
                         <Route path="/login" component={Login} />
                         <Route path="/home" component={Home} />
                     </Switch>
-                </div>
-            </BrowserRouter>
+                </BrowserRouter>
+            </Provider>
         );
     }
 }
